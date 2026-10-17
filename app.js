@@ -36,13 +36,13 @@ function stopSpeech() {
   if (speechSupported) window.speechSynthesis.cancel();
   activeUtterance = null;
 }
-function speak(text, locale = 'en-US', slow = false) {
+function speak(text, rate = 1.0) {
   if (!speechSupported) { alert('この端末では音声読み上げを利用できません。'); return; }
   if (!String(text).trim()) return;
   stopSpeech();
   const u = new window.SpeechSynthesisUtterance(text);
-  u.lang = locale; u.rate = slow ? 0.72 : 0.9; u.pitch = 1.0; u.volume = 1.0;
-  const voice = findBestVoice(locale);
+  u.lang = 'en-US'; u.rate = [1.0, 0.75, 0.5].includes(rate) ? rate : 1.0; u.pitch = 1.0; u.volume = 1.0;
+  const voice = findBestVoice('en-US');
   if (voice) u.voice = voice;
   activeUtterance = u;
   u.onend = () => { if (activeUtterance === u) activeUtterance = null; };
@@ -55,11 +55,11 @@ function speak(text, locale = 'en-US', slow = false) {
 }
 function speechButtons(text) {
   const encoded = encodeURIComponent(text).replace(/'/g, '%27');
-  return `<div class="speech-buttons" role="group" aria-label="英語の読み上げ">${[['en-US', false, '🔊 US'], ['en-GB', false, '🔊 UK'], ['en-US', true, '🐢 ゆっくり']].map(([locale, slow, label]) => `<button type="button" class="speak" data-speech="${encoded}" data-locale="${locale}" data-slow="${slow}">${label}</button>`).join('')}</div>`;
+  return `<div class="speech-buttons" role="group" aria-label="英語の読み上げ">${[[1.0, '通常'], [0.75, '0.75倍'], [0.5, '0.5倍']].map(([rate, label]) => `<button type="button" class="speak" data-speech="${encoded}" data-rate="${rate}">${label}</button>`).join('')}</div>`;
 }
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-speech]');
-  if (b) speak(decodeURIComponent(b.dataset.speech), b.dataset.locale, b.dataset.slow === 'true');
+  if (b) speak(decodeURIComponent(b.dataset.speech), Number(b.dataset.rate));
 });
 window.addEventListener('pagehide', stopSpeech);
 function renderLessons(){let el=$('#lessonList');el.innerHTML=D.lessons.map(l=>`<article class="card lesson-card" data-lesson="${l.num}"><div class="num">LESSON ${String(l.num).padStart(2,'0')}</div><h3>${l.title}</h3><div class="core">${l.core}</div><span class="badge">${l.source}</span></article>`).join('');$$('[data-lesson]').forEach(x=>x.onclick=()=>openLesson(+x.dataset.lesson))}
@@ -81,4 +81,4 @@ let deferredPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDe
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));
 touch();renderLessons();renderPhrases();renderBiz();renderStats();
 
-$('.topbar small').textContent = 'SUPER-SENSE ENGLISH · v1.1';
+$('.topbar small').textContent = 'SUPER-SENSE ENGLISH · v1.1.1';
