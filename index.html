@@ -21,6 +21,7 @@
   <div class="stats grid3"><div class="card stat"><b id="streak">0</b><span>連続日数</span></div><div class="card stat"><b id="mastery">0%</b><span>習得率</span></div><div class="card stat"><b id="todayCount">0</b><span>今日の回答</span></div></div>
   <h3>学習メニュー</h3>
   <div class="menu-grid">
+   <button class="menu card" data-nav="audio"><b>🎧 耳だけ学習</b><span>5分から、耳で思い出す</span></button>
    <button class="menu card" data-nav="lessons"><b>コアイメージ</b><span>17語を理解</span></button>
    <button class="menu card" data-mode="flash"><b>フラッシュカード</b><span>苦手ほど再出題</span></button>
    <button class="menu card" data-mode="quiz"><b>4択クイズ</b><span>10問サクッと</span></button>
@@ -34,9 +35,20 @@
 <section id="phrases" class="view"><div class="section-head"><button class="back">←</button><div><p class="eyebrow">CEBU LIFE</p><h2>セブ生活50フレーズ</h2></div></div><div class="filter-row"><button class="chip active" data-cat="全部">全部</button></div><div id="phraseList" class="stack"></div></section>
 <section id="business" class="view"><div class="section-head"><button class="back">←</button><div><p class="eyebrow">WORK</p><h2>仕事・マーケ英語</h2></div></div><div id="bizList" class="stack"></div></section>
 <section id="progress" class="view"><div class="section-head"><button class="back">←</button><div><p class="eyebrow">PROGRESS</p><h2>学習記録</h2></div></div><div id="progressBody"></div></section>
+<section id="audio" class="view">
+<div class="section-head"><button class="back" aria-label="ホームへ">←</button><div><p class="eyebrow">LISTEN & RECALL</p><h2>🎧 耳だけ学習</h2></div></div>
+<div class="card audio-settings"><label>学習時間<select id="audioMinutes"><option value="3">3分</option><option value="5" selected>5分</option><option value="10">10分</option></select></label>
+<label>モード<select id="audioMode"><option value="passive">聞き流し</option><option value="recall" selected>瞬間英作文</option><option value="listen">リスニング</option></select></label>
+<label>出題<select id="audioSource"><option value="today">今日のおすすめ</option><option value="weak">苦手だけ</option><option value="all">セブ生活50</option><option value="shuffle">シャッフル</option></select></label>
+<label class="check"><input type="checkbox" id="audioShuffle">出題順をシャッフル</label>
+<div class="speech-buttons" role="group" aria-label="英語の再生速度"><button class="chip active" data-audio-rate="1" aria-pressed="true">通常 1.0</button><button class="chip" data-audio-rate="0.75" aria-pressed="false">0.75倍</button><button class="chip" data-audio-rate="0.5" aria-pressed="false">0.5倍</button></div>
+<p id="audioPlan" class="muted"></p></div>
+<div class="card audio-player"><p id="audioStatus" role="status" aria-live="polite">準備できました</p><div class="progressbar"><i id="audioBar"></i></div><p id="audioMeta" class="muted">5分 · 10フレーズを基本に出題</p><h2 id="audioEnglish">日本語を聞いて、英語を思い出す。</h2><p id="audioJapanese"></p>
+<div class="audio-controls"><button id="audioStart" class="primary">▶ 再生開始</button><button id="audioPause" class="secondary" disabled>一時停止</button><button id="audioStop" class="secondary" disabled>■ 停止</button><button id="audioNext" class="secondary" disabled>次へ →</button></div>
+<p class="muted">再生中は画面を開いたままお使いください。対応端末では自動ロックを抑えます。画面ロック・別アプリでは停止する場合があります。一時停止後は読み上げ途中の文の先頭から再開します。</p><p class="muted">英語は同じUS音声、日本語は日本語音声です。オフライン音声には端末への音声ダウンロードが必要です。</p></div></section>
 <section id="trainer" class="view"><div class="section-head"><button class="back">×</button><div><p class="eyebrow" id="trainLabel">TRAINING</p><h2 id="trainTitle">3分トレーニング</h2></div></div><div class="trainer card"><div class="progressbar"><i id="bar"></i></div><p id="qMeta" class="muted"></p><h2 id="question"></h2><div id="answerArea"></div><div id="feedback"></div><div class="trainer-actions"><button id="reveal" class="secondary">答えを見る</button><button id="next" class="primary" hidden>次へ</button></div></div></section>
 </main>
 <nav class="bottom-nav"><button data-nav="home" class="active">ホーム</button><button data-nav="lessons">イメージ</button><button data-nav="phrases">50フレーズ</button><button data-mode="quick">3分</button></nav>
 </div>
-<script src="data.js"></script><script src="app.js"></script>
+<script src="data.js"></script><script src="app.js"></script><script src="audio.js"></script>
 </body></html>
